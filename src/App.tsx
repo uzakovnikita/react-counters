@@ -1,5 +1,11 @@
-function App() {
-  return <div className="App">app</div>;
-}
+import IndexPage from "./pages/IndexPage";
+
+const App = () => {
+  return (
+    <div className="App">
+      <IndexPage />
+    </div>
+  );
+};
 
 export default App;
