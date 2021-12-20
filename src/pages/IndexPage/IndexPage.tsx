@@ -8,22 +8,22 @@ const IndexPage = () => {
     return state.counters.ids.map((id) => {
       return {
         id,
-        autoIncrement: state.counters.entities[id]?.autoIncrement,
+        isAutoIncrement: state.counters.entities[id]?.isAutoIncrement,
       };
     });
   });
 
   return (
-    <>
+    <div>
       <AddBtn />
-      {counters.map(({ id, autoIncrement }) => {
-        if (autoIncrement) {
+      {counters.map(({ id, isAutoIncrement }) => {
+        if (isAutoIncrement) {
           return <CounterAutoIncrement id={id} key={id} />;
         }
 
         return <CounterManualIncrement id={id} key={id} />;
       })}
-    </>
+    </div>
   );
 };
 

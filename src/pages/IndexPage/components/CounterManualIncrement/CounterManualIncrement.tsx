@@ -1,6 +1,6 @@
 import { FunctionComponent } from "react";
 import { EntityId } from "@reduxjs/toolkit";
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
+import { useAppDispatch, useCounterValue } from "../../../../hooks";
 import { counterIncremented, counterDecremented, counterRemoved } from "../../../../store/countersSlice";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const CounterManualIncrement: FunctionComponent<Props> = ({ id }) => {
   const dispatch = useAppDispatch();
-  const counterValue = useAppSelector((state) => state.counters.entities[id]?.value);
+  const counterValue = useCounterValue(id);
 
   const handleIncrement = () => {
     dispatch(counterIncremented(id));

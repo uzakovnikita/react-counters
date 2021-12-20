@@ -1,11 +1,14 @@
 import { createEntityAdapter, createSlice, EntityId, PayloadAction } from "@reduxjs/toolkit";
 import { v4 } from "uuid";
+import { numberOfAutoIncrement } from "../contants";
 
 type Counter = {
   value: number;
   id: EntityId;
-  autoIncrement: boolean;
+  isAutoIncrement: boolean;
 };
+
+type ActionWithIdPaylod = PayloadAction<EntityId>;
 
 const countersAdapter = createEntityAdapter<Counter>({});
 
@@ -19,14 +22,14 @@ const countersSlice = createSlice({
 
         return newAcc;
       }, 0) as number;
-      const autoIncrement = (state.ids.length + 1) % 4 === 0;
+      const isAutoIncrement = (state.ids.length + 1) % numberOfAutoIncrement === 0;
 
-      countersAdapter.addOne(state, { value: prevCountersValue, id: v4(), autoIncrement });
+      countersAdapter.addOne(state, { value: prevCountersValue, id: v4(), isAutoIncrement });
     },
-    counterRemoved: (state, action: PayloadAction<EntityId>) => {
+    counterRemoved: (state, action: ActionWithIdPaylod) => {
       countersAdapter.removeOne(state, action.payload);
     },
-    counterIncremented: (state, action: PayloadAction<EntityId>) => {
+    counterIncremented: (state, action: ActionWithIdPaylod) => {
       const currentValue = state.entities[action.payload]?.value;
       if (typeof currentValue === "number") {
         countersAdapter.updateOne(state, {
@@ -37,7 +40,7 @@ const countersSlice = createSlice({
         });
       }
     },
-    counterDecremented: (state, action: PayloadAction<EntityId>) => {
+    counterDecremented: (state, action: ActionWithIdPaylod) => {
       const currentValue = state.entities[action.payload]?.value;
       if (typeof currentValue === "number") {
         countersAdapter.updateOne(state, {

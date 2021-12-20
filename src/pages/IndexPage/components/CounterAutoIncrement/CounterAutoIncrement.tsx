@@ -1,6 +1,6 @@
 import { FunctionComponent, useEffect } from "react";
 import { EntityId } from "@reduxjs/toolkit";
-import { useAppDispatch, useAppSelector } from "../../../../hooks";
+import { useAppDispatch, useCounterValue } from "../../../../hooks";
 import { counterIncremented, counterRemoved } from "../../../../store/countersSlice";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 
 const CounterAutoIncrement: FunctionComponent<Props> = ({ id }) => {
   const dispatch = useAppDispatch();
-  const counterValue = useAppSelector((state) => state.counters.entities[id]?.value);
+  const counterValue = useCounterValue(id);
 
   useEffect(() => {
     const timerId = setInterval(() => {
